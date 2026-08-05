@@ -1,5 +1,7 @@
 /target
 **/*.rs.bk
+*.safelock
+*.safetxt
 identity.txt
 *.age
 .DS_Store

@@ -3,7 +3,7 @@
 use std::path::PathBuf;
 
 use eframe::egui;
-use safe_txt::DEFAULT_IDENTITY;
+use safe_txt::{DEFAULT_IDENTITY, DEFAULT_VAULT_NAME};
 use safe_txt::crypto::{decrypt_file, encrypt_to_file, resolve_recipients};
 use safe_txt::keys::{keygen, load_identities, public_keys};
 
@@ -68,7 +68,11 @@ impl eframe::App for SafeTxtApp {
                 ui.label("Identity:");
                 ui.text_edit_singleline(&mut self.identity_path);
                 if ui.button("Browse…").clicked() {
-                    if let Some(path) = rfd::FileDialog::new().pick_file() {
+                    if let Some(path) = rfd::FileDialog::new()
+                        .add_filter("safe-txt lock", &["safelock"])
+                        .add_filter("All", &["*"])
+                        .pick_file()
+                    {
                         self.identity_path = path.display().to_string();
                     }
                 }
@@ -137,7 +141,8 @@ impl SafeTxtApp {
 
     fn action_open(&mut self) {
         let Some(path) = rfd::FileDialog::new()
-            .add_filter("age vault", &["age"])
+            .add_filter("safe-txt vault", &["safetxt"])
+            .add_filter("age (compat)", &["age"])
             .add_filter("All", &["*"])
             .pick_file()
         else {
@@ -164,8 +169,9 @@ impl SafeTxtApp {
     fn action_save(&mut self, force_dialog: bool) {
         let path = if force_dialog || self.file_path.is_empty() {
             let picked = rfd::FileDialog::new()
-                .add_filter("age vault", &["age"])
-                .set_file_name("vault.age")
+                .add_filter("safe-txt vault", &["safetxt"])
+                .add_filter("age (compat)", &["age"])
+                .set_file_name(DEFAULT_VAULT_NAME)
                 .save_file();
             match picked {
                 Some(p) => p,
