@@ -25,11 +25,12 @@ Binaries:
 ## Quick start (CLI)
 
 ```bash
-# 1. Create your private identity (prints your public key)
+# 1. Create your private identity (prints your public key; also writes `identity.safelock.pub`)
 safe-txt keygen -o identity.safelock
 
 # Optional: passphrase-protect the identity file
 safe-txt keygen -o identity.safelock --passphrase
+# → creates identity.safelock (encrypted) + identity.safelock.pub (public key, safe to keep)
 
 # 2. Create / edit a vault (opens $EDITOR / $VISUAL; notepad on Windows, vi on Linux)
 safe-txt edit secrets.safetxt

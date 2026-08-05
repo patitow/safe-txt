@@ -85,6 +85,7 @@ fn main() -> Result<()> {
         Commands::Keygen { out, passphrase } => {
             let recipient = keygen(&out, passphrase)?;
             eprintln!("Identity written to {}", out.display());
+            eprintln!("Public key written to {}", safe_txt::keys::pubkey_path(&out).display());
             println!("{recipient}");
         }
         Commands::Pubkey { identity } => {

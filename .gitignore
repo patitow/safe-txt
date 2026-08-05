@@ -1,6 +1,7 @@
 /target
 **/*.rs.bk
 *.safelock
+*.safelock.pub
 *.safetxt
 identity.txt
 *.age
